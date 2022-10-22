@@ -43,12 +43,21 @@ class Segment(pygame.Rect):
 
 class Food(pygame.Rect):
     def __init__(self):
-        super().__init__(10, 10, random.randint(1, 450), random.randint(1, 450))
+        super().__init__(random.randint(1, 450), random.randint(1, 450), 10, 10)
+        self.image = pygame.image.load("./gfx/food.png")
+    def update(self, head):
+        if (head.x > self.x + 10 and head.y > self.y + 10) and (head.x < self.x + 10 and head.y < self.y + 10):
+            self.x = random.randint(1, 450)
+            self.y = random.randint(1, 450)
+        display.blit(self.image, self)
+
+
 
 # Main Game Loop
 def main():
     run = True
     head = Head()
+    food = Food()
     while run:
         clock.tick(FPS)
         for event in pygame.event.get():
@@ -65,6 +74,7 @@ def main():
                     head.direction = "West"
         display.fill((255, 255, 255))
         head.update()
+        food.update(head)
         pygame.display.update()
     pygame.quit()
 
